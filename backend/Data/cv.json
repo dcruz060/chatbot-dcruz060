@@ -1,0 +1,153 @@
+{
+  "name": "Diego Cruz Oviedo",
+  "title": "Mechatronics Engineering Student & Software Engineering Intern",
+  "currentPosition": {
+    "role": "Software Engineering TIDE Intern",
+    "company": "PwC Acceleration Center Mexico",
+    "period": "February 2026 – Present",
+    "description": [
+      "Contributed to the development of technology-driven solutions within the Tax team.",
+      "Supported software engineering tasks focused on process optimization and automation.",
+      "Completed onboarding courses: JavaScript, TypeScript, Git & GitHub, HTML & CSS, React, HTTP & REST APIs, ASP.NET 8, and SQL."
+    ]
+  },
+  "contact": {
+    "email": "diego.oviedo1414@gmail.com",
+    "phone": "+52 5516020009",
+    "location": "Coyoacán, CDMX",
+    "github": "https://github.com/OvDiego",
+    "linkedin": "https://linkedin.com/in/dco180402"
+  },
+  "summary": "Mechatronics Engineering student with a strong academic record and hands-on experience in software development, systems integration, and data processing. Currently working as a Software Engineering Intern at PwC, contributing to technology-driven solutions focused on automation and process optimization. Skilled in applying programming, analytical thinking, and engineering principles to develop scalable and efficient systems.",
+  "education": [
+    {
+      "institution": "Facultad de Ingeniería, UNAM",
+      "degree": "Mechatronics Engineering",
+      "status": "Student",
+      "gpa": "9.49",
+      "location": "Ciudad Universitaria, CDMX",
+      "graduationDate": "June 2026",
+      "honors": [
+        "Fundación BBVA Scholarship: Chavos que Inspiran (2014–2020)",
+        "Fundación Telmex Scholarship (2022–Present)"
+      ]
+    }
+  ],
+  "skills": {
+    "programmingLanguages": ["Python", "JavaScript", "TypeScript", "Kotlin", "C++", "SQL"],
+    "frontend": ["React", "HTML", "CSS", "TypeScript"],
+    "backend": ["ASP.NET Core", "REST APIs", "Python"],
+    "databases": ["SQL"],
+    "tools": ["Git", "GitHub", "Linux", "Power BI", "Microsoft 365", "ROS2"],
+    "languages": ["Spanish (Native)", "English (B2)"],
+    "personalStrengths": [
+      "Quick Learner",
+      "Discipline",
+      "Teamwork",
+      "Creative Thinking",
+      "Problem-solving",
+      "Continuous Improvement"
+    ]
+  },
+  "experience": [
+    {
+      "role": "Software Engineering TIDE Intern",
+      "company": "PwC Acceleration Center Mexico",
+      "location": "Ciudad de México, México",
+      "period": "February 2026 – Present",
+      "responsibilities": [
+        "Contributed to the development of technology-driven solutions within the Tax team.",
+        "Supported software engineering tasks focused on process optimization and automation.",
+        "Completed onboarding courses: JavaScript, TypeScript, Git & GitHub, HTML & CSS, React, HTTP & REST APIs, ASP.NET 8, and SQL."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "organization": "LIRA – Laboratorio de Investigación y Robótica Avanzada UNAM",
+      "role": "Captain – Competition Robotics Division",
+      "period": "January 2024 – October 2025",
+      "highlights": [
+        "Designed, built, tested, and deployed a combat robot applying mechanical design, electronics integration, and embedded programming.",
+        "3rd place – Minisumo combat robot, Zacatepec Morelos, April 2025.",
+        "3rd place – Microsumo combat robot, Cuautla Morelos, April 2025."
+      ],
+      "technologies": ["Programming", "Git", "GitHub"]
+    },
+    {
+      "organization": "LIRA – Laboratorio de Investigación y Robótica Avanzada UNAM",
+      "role": "Software Leader – Lunar Rover Arm",
+      "period": "January 2026 – Present",
+      "highlights": [
+        "Developed ROS2 nodes for robotic arm control, enabling navigation, manipulation, and task execution.",
+        "Designed and implemented control logic for autonomous and semi-autonomous arm operations.",
+        "Participated in a lunar rover competition in Puebla, April 2026."
+      ],
+      "technologies": ["Programming", "Git", "GitHub", "ROS2", "Python"]
+    },
+    {
+      "organization": "Facultad de Ingeniería, UNAM",
+      "role": "Project Leader – Mobile Application Prototype",
+      "period": "January 2024 – September 2024",
+      "highlights": [
+        "Led the development of a mobile application prototype for Android using Kotlin.",
+        "Applied Clean Architecture principles for scalability and maintainability.",
+        "Implemented data extraction from an external API with transformation and debugging pipeline."
+      ],
+      "technologies": ["Kotlin", "Android", "Clean Architecture", "REST APIs", "Git", "GitHub"]
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Power BI Fundamentals",
+      "date": "April 2025"
+    },
+    {
+      "name": "Python Essentials 1-2",
+      "date": "June 2025"
+    },
+    {
+      "name": "Linux Essentials",
+      "date": "January 2026"
+    },
+    {
+      "name": "JavaScript for Beginners",
+      "date": "April 2026"
+    },
+    {
+      "name": "TypeScript for Beginners",
+      "date": "April 2026"
+    },
+    {
+      "name": "CSS and HTML for Beginners",
+      "date": "April 2026"
+    },
+    {
+      "name": "React for Beginners",
+      "date": "April 2026"
+    },
+    {
+      "name": "API REST for Beginners",
+      "date": "April 2026"
+    },
+    {
+      "name": "SQL for Beginners",
+      "date": "May 2026"
+    },
+    {
+      "name": "ASP.NET for Beginners",
+      "date": "May 2026"
+    },
+    {
+      "name": "Git and GitHub for Beginners",
+      "date": "April 2026"
+    }
+  ],
+  "areasOfInterest": [
+    "Software Development",
+    "Automation",
+    "Optimization",
+    "Data",
+    "Robotics"
+  ]
+} 
