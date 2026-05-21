@@ -51,11 +51,12 @@ export default function Chatbot() {
       const answer = await sendQuestion(question);
       const botMessage = createMessage(answer, "bot");
       setMessages((prev) => [...prev, botMessage]);
-    } catch {
-      const errorMessage = createMessage(
-        "Error al conectar con el servidor. Asegurate de que el backend este corriendo.",
-        "bot"
-      );
+    } catch (err) {
+      const text =
+        err instanceof Error
+          ? err.message
+          : "Error al conectar con el servidor. Intenta de nuevo.";
+      const errorMessage = createMessage(text, "bot");
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setLoading(false);
