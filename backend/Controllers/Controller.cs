@@ -16,14 +16,14 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ChatResponse> Post([FromBody] ChatRequest request)
+        public async Task<ActionResult<ChatResponse>> Post([FromBody] ChatRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Question))
             {
-                return BadRequest(new ChatResponse { Answer = "La pregunta no puede estar vacía." });
+                return BadRequest(new ChatResponse { Answer = "La pregunta no puede estar vacia." });
             }
 
-            var answer = _chatService.ProcessQuestion(request.Question);
+            var answer = await _chatService.ProcessQuestion(request.Question);
 
             return Ok(new ChatResponse { Answer = answer });
         }
