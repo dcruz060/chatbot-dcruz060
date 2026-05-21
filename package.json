@@ -1,0 +1,9 @@
+{
+  "name": "chatbot-dcruz060",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@vercel/node": "^5.1.14",
+    "typescript": "~5.8.3"
+  }
+}
