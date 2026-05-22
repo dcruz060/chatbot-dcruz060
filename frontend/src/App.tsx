@@ -1,19 +1,11 @@
-import Header from "./components/Header";
-import Chatbot from "./components/Chatbot";
 import Sidebar from "./components/Sidebar";
+import Chatbot from "./components/Chatbot";
 
 function App() {
   return (
-    <div className="app">
-      <Header />
-      <main className="dashboard">
-        <div className="chat-section">
-          <Chatbot />
-        </div>
-        <div className="info-section">
-          <Sidebar />
-        </div>
-      </main>
+    <div className="app-layout">
+      <Sidebar />
+      <Chatbot />
     </div>
   );
 }
