@@ -11,6 +11,15 @@ interface ChatRequestBody {
   question?: string;
 }
 
+interface GeminiResponse {
+  candidates?: Array<{
+    content?: { parts?: Array<{ text?: string }> };
+  }>;
+  error?: { message?: string };
+}
+
+const DEFAULT_MODEL = "gemini-2.0-flash";
+
 function loadCvData(): CvData {
   const filePath = path.join(process.cwd(), "backend", "Data", "cv.json");
   const raw = fs.readFileSync(filePath, "utf-8");
@@ -34,30 +43,29 @@ CV DE ${cv.name.toUpperCase()}:
 ${cvJson}`;
 }
 
-function getEnvConfig(): { url: string; apiKey: string; model: string } | null {
-  const url = process.env.GENAI_URL;
-  const apiKey = process.env.GENAI_API_KEY;
-  const model = process.env.GENAI_MODEL;
+function getGoogleConfig(): { apiKey: string; model: string } | null {
+  const apiKey = process.env.GOOGLE_AI_API_KEY?.trim();
+  const model = (process.env.GOOGLE_AI_MODEL?.trim() || DEFAULT_MODEL).replace(/^models\//, "");
 
-  if (!url || !apiKey || !model) {
+  if (!apiKey) {
     return null;
   }
 
-  return { url, apiKey, model };
+  return { apiKey, model };
 }
 
 function handleGetStatus(res: VercelResponse) {
-  const url = process.env.GENAI_URL?.trim();
-  const apiKey = process.env.GENAI_API_KEY?.trim();
-  const model = process.env.GENAI_MODEL?.trim();
+  const apiKey = process.env.GOOGLE_AI_API_KEY?.trim();
+  const model = process.env.GOOGLE_AI_MODEL?.trim() || DEFAULT_MODEL;
 
   return res.status(200).json({
+    provider: "Google AI Studio (Gemini)",
     configured: {
-      GENAI_URL: Boolean(url),
-      GENAI_API_KEY: Boolean(apiKey),
-      GENAI_MODEL: Boolean(model),
+      GOOGLE_AI_API_KEY: Boolean(apiKey),
+      GOOGLE_AI_MODEL: Boolean(model),
     },
-    allSet: Boolean(url && apiKey && model),
+    model: model.replace(/^models\//, ""),
+    allSet: Boolean(apiKey),
   });
 }
 
@@ -77,10 +85,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ answer: "La pregunta no puede estar vacia." });
   }
 
-  const env = getEnvConfig();
-  if (!env) {
+  const config = getGoogleConfig();
+  if (!config) {
     return res.status(500).json({
-      answer: "Configuracion de GenAI incompleta. Define GENAI_URL, GENAI_API_KEY y GENAI_MODEL en Vercel.",
+      answer: "Falta GOOGLE_AI_API_KEY en Vercel. Crea la variable en Settings → Environment Variables.",
     });
   }
 
@@ -92,55 +100,56 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const systemPrompt = buildSystemPrompt(cv);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.apiKey}`;
 
   try {
-    const genaiResponse = await fetch(env.url, {
+    const geminiResponse = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "API-Key": env.apiKey,
-        Authorization: `Bearer ${env.apiKey}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: env.model,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: question },
+        systemInstruction: {
+          parts: [{ text: systemPrompt }],
+        },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: question }],
+          },
         ],
       }),
     });
 
-    const responseText = await genaiResponse.text();
+    const responseText = await geminiResponse.text();
+    let data: GeminiResponse;
 
-    if (!genaiResponse.ok) {
+    try {
+      data = JSON.parse(responseText) as GeminiResponse;
+    } catch {
       return res.status(502).json({
-        answer: `GenAI respondio con error ${genaiResponse.status}. Revisa la API key, el modelo y que la URL sea la correcta de PwC.`,
+        answer: "Google AI devolvio una respuesta invalida.",
       });
     }
 
-    const data = JSON.parse(responseText) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
+    if (!geminiResponse.ok) {
+      const msg = data.error?.message ?? `Error ${geminiResponse.status}`;
+      return res.status(502).json({
+        answer: `Google AI: ${msg}`,
+      });
+    }
 
-    const answer = data.choices?.[0]?.message?.content;
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!answer) {
       return res.status(502).json({
-        answer: "El servicio de IA devolvio un formato inesperado.",
+        answer: "Google AI no devolvio texto en la respuesta.",
       });
     }
 
     return res.status(200).json({ answer });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
-    const isNetworkError = /fetch failed|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|getaddrinfo|network/i.test(
-      detail
-    );
-
     return res.status(502).json({
-      answer: isNetworkError
-        ? "GenAI no es alcanzable desde Vercel. La URL pwcinternal.com solo funciona en red o VPN de PwC. En local usa el backend ASP.NET; para produccion publica necesitas un endpoint accesible desde internet."
-        : `Error al conectar con GenAI: ${detail}`,
+      answer: `Error al conectar con Google AI: ${detail}`,
     });
   }
 }
