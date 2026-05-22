@@ -1,4 +1,5 @@
-import { profile } from "../data/profile";
+import { profile, areasOfInterest } from "../data/profile";
+import ProjectImageToggle from "./ProjectImageToggle";
 
 function IconEmail() {
   return (
@@ -68,27 +69,32 @@ const contactItems = [
   { icon: <IconGitHub />, ...profile.contact.github },
 ];
 
-export default function Sidebar() {
-  return (
-    <aside className="sidebar">
-      <div className="sidebar-inner">
+interface SidebarProps {
+  className?: string;
+}
 
-        {/* PERFIL */}
+export default function Sidebar({ className = "" }: SidebarProps) {
+  return (
+    <aside className={`sidebar ${className}`.trim()}>
+      <div className="sidebar-inner">
         <div className="sidebar-profile">
           <img src={profile.avatar} alt={profile.name} className="sidebar-avatar" />
           <h1 className="sidebar-name">{profile.name}</h1>
           <p className="sidebar-role">{profile.role}</p>
         </div>
 
-        {/* CONTACTO */}
         <ul className="sidebar-contact">
           {contactItems.map((item) => (
             <li key={item.label}>
               <span className="contact-icon">{item.icon}</span>
               {item.href ? (
-                <a href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.label}
-                </a>
+                item.href.startsWith("mailto:") ? (
+                  <a href={item.href}>{item.label}</a>
+                ) : (
+                  <a href={item.href} target="_blank" rel="noopener noreferrer">
+                    {item.label}
+                  </a>
+                )
               ) : (
                 <span>{item.label}</span>
               )}
@@ -98,17 +104,15 @@ export default function Sidebar() {
 
         <hr className="sidebar-divider" />
 
-        {/* RESUMEN */}
         <section className="sidebar-section">
-          <h2 className="sidebar-section-title">PERFIL</h2>
+          <h2 className="sidebar-section-title">PROFILE</h2>
           <p className="sidebar-summary">{profile.summary}</p>
         </section>
 
         <hr className="sidebar-divider" />
 
-        {/* HABILIDADES */}
         <section className="sidebar-section">
-          <h2 className="sidebar-section-title">HABILIDADES</h2>
+          <h2 className="sidebar-section-title">SKILLS</h2>
           <div className="skill-pills">
             {profile.skills.map((skill) => (
               <span key={skill} className="skill-pill">
@@ -120,9 +124,21 @@ export default function Sidebar() {
 
         <hr className="sidebar-divider" />
 
-        {/* EXPERIENCIA */}
         <section className="sidebar-section">
-          <h2 className="sidebar-section-title">EXPERIENCIA</h2>
+          <h2 className="sidebar-section-title">AREAS OF INTEREST</h2>
+          <div className="skill-pills">
+            {areasOfInterest.map((area) => (
+              <span key={area} className="skill-pill">
+                {area}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <hr className="sidebar-divider" />
+
+        <section className="sidebar-section">
+          <h2 className="sidebar-section-title">EXPERIENCE</h2>
           <div className="timeline-list">
             {profile.experience.map((exp, index) => (
               <div key={index} className="timeline">
@@ -140,9 +156,8 @@ export default function Sidebar() {
 
         <hr className="sidebar-divider" />
 
-        {/* PROYECTOS */}
         <section className="sidebar-section">
-          <h2 className="sidebar-section-title">PROYECTOS</h2>
+          <h2 className="sidebar-section-title">PROJECTS</h2>
           <div className="timeline-list">
             {profile.projects.map((project, index) => (
               <div key={index} className="timeline">
@@ -152,19 +167,21 @@ export default function Sidebar() {
                   <p className="timeline-company">{project.company}</p>
                   <p className="timeline-period">{project.period}</p>
                   <p className="timeline-desc">{project.description}</p>
-                  <div className="skill-pills" style={{ marginTop: "0.4rem" }}>
+                  <div className="skill-pills project-tags">
                     {project.technologies.map((tech) => (
                       <span key={tech} className="skill-pill">
                         {tech}
                       </span>
                     ))}
                   </div>
+                  {project.image && (
+                    <ProjectImageToggle imageSrc={project.image} projectName={project.name} />
+                  )}
                 </div>
               </div>
             ))}
           </div>
         </section>
-
       </div>
     </aside>
   );

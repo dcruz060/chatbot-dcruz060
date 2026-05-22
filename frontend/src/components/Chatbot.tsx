@@ -66,12 +66,11 @@ function WelcomeScreen({ onSuggestion, disabled }: WelcomeProps) {
   return (
     <div className="welcome-screen">
       <IconAiWelcome />
-      <h2 className="welcome-title">¡Hola! 👋</h2>
+      <h2 className="welcome-title">Hello! 👋</h2>
       <p className="welcome-subtitle">
-        Soy un asistente de IA. Puedes hacerme cualquier pregunta sobre este CV y te responderé al
-        instante.
+        I&apos;m an AI assistant. Ask me anything about this CV and I&apos;ll answer right away.
       </p>
-      <p className="welcome-suggestions-label">✨ Preguntas sugeridas</p>
+      <p className="welcome-suggestions-label">✨ Suggested questions</p>
       <div className="suggested-grid">
         {suggestedQuestions.map((q) => (
           <button
@@ -89,7 +88,11 @@ function WelcomeScreen({ onSuggestion, disabled }: WelcomeProps) {
   );
 }
 
-export default function Chatbot() {
+interface ChatbotProps {
+  className?: string;
+}
+
+export default function Chatbot({ className = "" }: ChatbotProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -127,7 +130,7 @@ export default function Chatbot() {
         const text =
           err instanceof Error
             ? err.message
-            : "Error al conectar con el servidor. Intenta de nuevo.";
+            : "Could not connect to the server. Please try again.";
         setMessages((prev) => [...prev, createMessage(text, "bot")]);
       } finally {
         setLoading(false);
@@ -150,19 +153,17 @@ export default function Chatbot() {
   const canSend = input.trim().length > 0 && !loading;
 
   return (
-    <section className="chat-panel">
+    <section className={`chat-panel ${className}`.trim()}>
       <header className="chat-header">
         <IconChatHeader />
         <div className="chat-header-text">
-          <h2>Chat con mi CV</h2>
-          <p>Pregúntame lo que quieras sobre mi experiencia</p>
+          <h2>Chat with my CV</h2>
+          <p>Ask me anything about my experience</p>
         </div>
       </header>
 
       <div className="chat-body">
-        {showWelcome && (
-          <WelcomeScreen onSuggestion={submitQuestion} disabled={loading} />
-        )}
+        {showWelcome && <WelcomeScreen onSuggestion={submitQuestion} disabled={loading} />}
 
         {(messages.length > 0 || loading) && (
           <div
@@ -179,7 +180,7 @@ export default function Chatbot() {
                 </div>
                 {msg.sender === "user" && (
                   <span className="msg-avatar user-avatar" aria-hidden="true">
-                    TU
+                    YOU
                   </span>
                 )}
               </div>
@@ -188,7 +189,7 @@ export default function Chatbot() {
               <div className="msg-row bot">
                 <IconRobot />
                 <div className="msg-bubble bot typing-bubble">
-                  <div className="typing-indicator" aria-label="Escribiendo">
+                  <div className="typing-indicator" aria-label="Typing">
                     <span />
                     <span />
                     <span />
@@ -207,16 +208,16 @@ export default function Chatbot() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Pregúntame sobre mi CV..."
+          placeholder="Ask me about my CV..."
           disabled={loading}
-          aria-label="Mensaje para el asistente"
+          aria-label="Message for the assistant"
         />
         <button
           type="button"
           className="chat-send-btn"
           onClick={handleSend}
           disabled={!canSend}
-          aria-label="Enviar mensaje"
+          aria-label="Send message"
         >
           <IconSend />
         </button>

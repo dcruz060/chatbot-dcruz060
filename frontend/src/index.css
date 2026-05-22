@@ -547,10 +547,111 @@ body {
   cursor: not-allowed;
 }
 
+/* ——— Project image toggle ——— */
+.project-tags {
+  margin-top: 0.4rem;
+}
+
+.project-image-block {
+  margin-top: 0.5rem;
+}
+
+.project-image-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+
+.project-image-toggle:hover {
+  color: var(--primary-hover);
+}
+
+.chevron-icon {
+  transition: transform 0.2s ease;
+}
+
+.chevron-open {
+  transform: rotate(180deg);
+}
+
+.project-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+/* ——— Mobile tabs ——— */
+.mobile-tabs {
+  display: none;
+}
+
 /* ——— Responsive ——— */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .mobile-tabs {
+    display: flex;
+    flex-shrink: 0;
+    background: var(--bg-chat);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .mobile-tab {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--bg-page);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .mobile-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  .sidebar,
+  .chat-panel {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+  }
+
   .sidebar {
-    display: none;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .panel-hidden {
+    display: none !important;
+  }
+
+  .panel-visible {
+    display: flex !important;
+    flex-direction: column;
   }
 
   .suggested-grid {

@@ -15,7 +15,7 @@
     "email": "diego.oviedo1414@gmail.com",
     "phone": "+52 5516020009",
     "location": "Coyoacán, CDMX",
-    "github": "https://github.com/OvDiego",
+    "github": "https://github.com/dcruz060",
     "linkedin": "https://linkedin.com/in/dco180402"
   },
   "summary": "Mechatronics Engineering student with a strong academic record and hands-on experience in software development, systems integration, and data processing. Currently working as a Software Engineering Intern at PwC, contributing to technology-driven solutions focused on automation and process optimization. Skilled in applying programming, analytical thinking, and engineering principles to develop scalable and efficient systems.",
@@ -76,12 +76,10 @@
     },
     {
       "organization": "LIRA – Laboratorio de Investigación y Robótica Avanzada UNAM",
-      "role": "Software Leader – Lunar Rover Arm",
+      "role": "Lunar Rover – Robotic Arm Lead",
       "period": "January 2026 – Present",
       "highlights": [
-        "Developed ROS2 nodes for robotic arm control, enabling navigation, manipulation, and task execution.",
-        "Designed and implemented control logic for autonomous and semi-autonomous arm operations.",
-        "Participated in a lunar rover competition in Puebla, April 2026."
+        "As part of the lunar rover team, I developed ROS2 nodes for robotic arm control, enabling navigation, manipulation, and task execution, while designing and implementing control logic for both autonomous and semi-autonomous arm operations. My work focused on automating a robotic manipulation system using a xArm6 manipulator within the ROS2 environment, integrating a computer vision pipeline with YOLOv8 and Intel RealSense cameras for target detection and spatial estimation. For manipulator control, I developed motion planning nodes based on algorithmic path generation, implementing the RRT (Rapidly-exploring Random Tree) algorithm to compute efficient, collision-free trajectories, ensuring a fully automated, safe, and optimized process during tracking and collection tasks. This work was showcased at a lunar rover competition held in Puebla, April 2026."
       ],
       "technologies": ["Programming", "Git", "GitHub", "ROS2", "Python"]
     },

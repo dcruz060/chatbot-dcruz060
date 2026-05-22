@@ -1,22 +1,32 @@
+import cvData from "../../../backend/Data/cv.json";
+
+export const areasOfInterest: string[] = cvData.areasOfInterest ?? [];
+
 export const profile = {
   name: "Diego Cruz Oviedo",
   role: "Software Engineering TIDE Intern",
   avatar: "/diego.png",
   contact: {
-    email: { label: "diego.d.cruz@pwc.com", href: "mailto:diego.d.cruz@pwc.com" },
-    phone: { label: "+52 5516020009", href: null },  
-    location: { label: "Coyoacán, CDMX", href: null },
+    email: {
+      label: "diego.d.cruz@pwc.com",
+      href: "mailto:diego.d.cruz@pwc.com",
+      external: false,
+    },
+    phone: { label: "+52 5516020009", href: "tel:+525516020009", external: false },
+    location: { label: "Coyoacán, CDMX", href: null, external: false },
     linkedin: {
-      label: "linkedin.com/in/dco180402",
+      label: "Diego Cruz Oviedo",
       href: "https://linkedin.com/in/dco180402",
+      external: true,
     },
     github: {
-      label: "github.com/dcruz060",
+      label: "dcruz060",
       href: "https://github.com/dcruz060",
+      external: true,
     },
   },
   summary:
-  "Estudiante de Ingeniería Mecatrónica de 10mo semestre con un fuerte registro académico y experiencia práctica en desarrollo de software, integración de sistemas y robótica. Actualmente trabajando como Intern de Ingeniería de Software en PwC, contribuyendo a soluciones tecnológicas enfocadas en automatización y optimización de procesos en el área de Tax.",
+    "10th-semester Mechatronics Engineering student with a strong academic record and hands-on experience in software development, systems integration, and robotics. Currently working as a Software Engineering Intern at PwC, contributing to technology-driven solutions focused on automation and process optimization in the Tax practice.",
   skills: [
     "Python",
     "JavaScript",
@@ -34,38 +44,44 @@ export const profile = {
     {
       role: "Software Engineering TIDE Intern",
       company: "PwC Acceleration Center Mexico",
-      period: "Feb 2026 · Presente",
-      description: "Desarrollo de soluciones tecnológicas en el equipo de Tax, optimización de procesos y automatización con stack moderno.",
+      period: "Feb 2026 · Present",
+      description:
+        "Developing technology-driven solutions on the Tax team, process optimization, and automation with a modern stack.",
     },
   ],
   projects: [
     {
-      company: "LIRA UNAM",
-      name: "Lunar Rover - Robotic Arm",
-      period: "Ene 2026 · Presente",
-      description: "Desarrollo de nodos ROS2 para control de brazo robótico. Participación en competencia en Puebla, Abril 2026.",
-      technologies: ["ROS2", "Python","OpenCV", "Git" ],
+      company: "Laboratorio de Investigación y Robótica Avanzada UNAM",
+      name: "Lunar Rover - Robotic Arm Lead",
+      period: "Jan 2026 · Present",
+      description:
+        "Leading robotic arm automation with computer vision for target detection and algorithmic path planning for autonomous operations.",
+      technologies: ["ROS2", "Python", "OpenCV", "Git", "Automation"],
+      image: "/rover.jpg",
     },
     {
       company: "LIRA UNAM",
-      name: "Combat Robot",
-      period: "Ene 2024 · December 2025",
-      description: "Diseño, construcción y programación de robots de combate. 3er lugar minisumo y microsumo.",
-      technologies: ["C++", "Electrónica", "Diseño mecánico"],
+      name: "Mini and Microsumo Combat Robot",
+      period: "Jan 2024 · Dec 2025",
+      description: "Design, build, and programming of competition combat robots.",
+      technologies: ["C++", "Electronics", "Mechanical design"],
+      image: "/mini.jpg",
     },
     {
-      company: "CIA UNAM",
+      company: "Facultad de Ingeniería, UNAM",
       name: "Mobile App Prototype",
-      period: "Ene 2024 · Sep 2024",
-      description: "App Android con Kotlin y Clean Architecture. Extracción y transformación de datos desde API externa.",
+      period: "Jan 2024 · Sep 2024",
+      description:
+        "Android app with Kotlin for recipe search and publishing. Data extraction and transformation from an external API.",
       technologies: ["Kotlin", "Android", "MVVM", "REST APIs"],
+      image: null as string | null,
     },
-  ],  
+  ],
 };
 
 export const suggestedQuestions = [
-  "¿Cuál es tu experiencia profesional?",
-  "¿Qué habilidades técnicas tienes?",
-  "¿Cuál es tu puesto actual?",
-  "¿Por qué debería contratarte?",
+  "What is his professional experience?",
+  "What technical skills does he have?",
+  "Who's Diego?",
+  "Why should I hire you?",
 ];
