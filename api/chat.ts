@@ -48,9 +48,31 @@ function getEnvConfig(): { url: string; apiKey: string; model: string } | null {
   return { url, apiKey, model };
 }
 
+/** GET: comprueba que las variables existen (no muestra valores). Util para depurar en Vercel. */
+function handleGetStatus(res: VercelResponse) {
+  const url = process.env.GENAI_URL?.trim();
+  const apiKey = process.env.GENAI_API_KEY?.trim();
+  const model = process.env.GENAI_MODEL?.trim();
+
+  return res.status(200).json({
+    message:
+      "Variables Sensitive en Vercel se ocultan al editar; un campo vacio no significa que se borraron.",
+    configured: {
+      GENAI_URL: Boolean(url),
+      GENAI_API_KEY: Boolean(apiKey),
+      GENAI_MODEL: Boolean(model),
+    },
+    allSet: Boolean(url && apiKey && model),
+  });
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === "GET") {
+    return handleGetStatus(res);
+  }
+
   if (req.method !== "POST") {
-    return res.status(405).json({ answer: "Solo se permite el metodo POST." });
+    return res.status(405).json({ answer: "Solo se permite GET (diagnostico) o POST (chat)." });
   }
 
   const body = req.body as ChatRequestBody | undefined;
