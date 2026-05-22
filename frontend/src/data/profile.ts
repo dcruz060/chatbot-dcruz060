@@ -4,7 +4,7 @@ export const areasOfInterest: string[] = cvData.areasOfInterest ?? [];
 
 export const profile = {
   name: "Diego Cruz Oviedo",
-  role: "Software Engineering TIDE Intern",
+  role: "Software Engineering TIDE Intern\nMechatronics Engineering Student",
   avatar: "/diego.png",
   contact: {
     email: {

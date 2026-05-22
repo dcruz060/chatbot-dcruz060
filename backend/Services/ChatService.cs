@@ -35,7 +35,7 @@ REGLAS:
 - Solo responde con informacion que este en el CV proporcionado.
 - No inventes experiencia, proyectos ni habilidades que no esten en los datos.
 - Si no tienes informacion suficiente, di honestamente que esa informacion no aparece en el CV.
-- Responde en espanol.
+- ALWAYS respond in the same language the user writes in (English question → English answer, Spanish question → Spanish answer, etc.).
 - Se profesional pero amigable.
 - Responde de forma concisa, no mas de 3-4 oraciones a menos que te pidan mas detalle.
 
