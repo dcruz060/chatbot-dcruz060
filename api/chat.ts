@@ -114,8 +114,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!genaiResponse.ok) {
       return res.status(502).json({
-        answer:
-          "El servicio de IA rechazo la solicitud. Verifica URL, API key y modelo en Vercel, o si la API solo funciona en red PwC.",
+        answer: `GenAI respondio con error ${genaiResponse.status}. Revisa la API key, el modelo y que la URL sea la correcta de PwC.`,
       });
     }
 
@@ -134,14 +133,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ answer });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
-    const isNetworkError = /fetch failed|ENOTFOUND|ETIMEDOUT|ECONNREFUSED|getaddrinfo|certificate/i.test(
+    const isNetworkError = /fetch failed|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|getaddrinfo|network/i.test(
       detail
     );
 
     return res.status(502).json({
       answer: isNetworkError
-        ? "La API de PwC GenAI (pwcinternal.com) no es accesible desde internet publico. En Vercel no puede conectarse; en tu PC funciona con VPN/red PwC. Para un link publico necesitas un endpoint externo o desplegar dentro de la red corporativa."
-        : `Error al conectar con el servicio de IA: ${detail}`,
+        ? "GenAI no es alcanzable desde Vercel. La URL pwcinternal.com solo funciona en red o VPN de PwC. En local usa el backend ASP.NET; para produccion publica necesitas un endpoint accesible desde internet."
+        : `Error al conectar con GenAI: ${detail}`,
     });
   }
 }
