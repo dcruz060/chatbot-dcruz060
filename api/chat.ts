@@ -18,7 +18,8 @@ interface GeminiResponse {
   error?: { message?: string };
 }
 
-const DEFAULT_MODEL = "gemini-2.0-flash";
+// gemini-2.0-flash suele tener cuota 0 en proyectos nuevos del plan gratuito
+const DEFAULT_MODEL = "gemini-2.5-flash";
 
 function loadCvData(): CvData {
   const filePath = path.join(process.cwd(), "backend", "Data", "cv.json");
@@ -132,6 +133,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!geminiResponse.ok) {
       const msg = data.error?.message ?? `Error ${geminiResponse.status}`;
+      if (/quota|rate.?limit|RESOURCE_EXHAUSTED/i.test(msg)) {
+        return res.status(502).json({
+          answer:
+            `Cuota de Google AI agotada o no disponible para el modelo "${config.model}". ` +
+            "En Vercel cambia GOOGLE_AI_MODEL a gemini-2.5-flash (o gemini-1.5-flash), guarda y haz Redeploy. " +
+            "Tambien revisa https://aistudio.google.com/apikey",
+        });
+      }
       return res.status(502).json({
         answer: `Google AI: ${msg}`,
       });
