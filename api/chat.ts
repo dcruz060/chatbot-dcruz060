@@ -11,14 +11,12 @@ interface ChatRequestBody {
   question?: string;
 }
 
-/** Lee el CV desde backend/Data (sin modificar el backend ASP.NET). */
 function loadCvData(): CvData {
   const filePath = path.join(process.cwd(), "backend", "Data", "cv.json");
   const raw = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(raw) as CvData;
 }
 
-/** Mismo enfoque que el backend: system prompt con el JSON del CV. */
 function buildSystemPrompt(cv: CvData): string {
   const cvJson = JSON.stringify(cv, null, 2);
 
@@ -48,15 +46,12 @@ function getEnvConfig(): { url: string; apiKey: string; model: string } | null {
   return { url, apiKey, model };
 }
 
-/** GET: comprueba que las variables existen (no muestra valores). Util para depurar en Vercel. */
 function handleGetStatus(res: VercelResponse) {
   const url = process.env.GENAI_URL?.trim();
   const apiKey = process.env.GENAI_API_KEY?.trim();
   const model = process.env.GENAI_MODEL?.trim();
 
   return res.status(200).json({
-    message:
-      "Variables Sensitive en Vercel se ocultan al editar; un campo vacio no significa que se borraron.",
     configured: {
       GENAI_URL: Boolean(url),
       GENAI_API_KEY: Boolean(apiKey),
@@ -72,7 +67,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ answer: "Solo se permite GET (diagnostico) o POST (chat)." });
+    return res.status(405).json({ answer: "Metodo no permitido." });
   }
 
   const body = req.body as ChatRequestBody | undefined;
@@ -119,7 +114,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!genaiResponse.ok) {
       return res.status(502).json({
-        answer: "No se pudo obtener una respuesta del servicio de IA. Intenta de nuevo mas tarde.",
+        answer:
+          "El servicio de IA rechazo la solicitud. Verifica URL, API key y modelo en Vercel, o si la API solo funciona en red PwC.",
       });
     }
 
@@ -136,9 +132,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     return res.status(200).json({ answer });
-  } catch {
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    const isNetworkError = /fetch failed|ENOTFOUND|ETIMEDOUT|ECONNREFUSED|getaddrinfo|certificate/i.test(
+      detail
+    );
+
     return res.status(502).json({
-      answer: "Error al conectar con el servicio de IA. Intenta de nuevo mas tarde.",
+      answer: isNetworkError
+        ? "La API de PwC GenAI (pwcinternal.com) no es accesible desde internet publico. En Vercel no puede conectarse; en tu PC funciona con VPN/red PwC. Para un link publico necesitas un endpoint externo o desplegar dentro de la red corporativa."
+        : `Error al conectar con el servicio de IA: ${detail}`,
     });
   }
 }
